@@ -3,19 +3,110 @@ import { useState } from "react";
 export default function PlayGame() {
   const [isPressed, setIsPressed] = useState(false);
 
-  const handlePressStart = (e) => {
-    e.preventDefault(); // 🔒 cegah menu klik lama di HP
+  // fungsi untuk handle button klakson
+  const handlePressStartKlakson = () => {
     setIsPressed(true);
-    console.log("Klakson ON 🚗🔊");
-    // di sini kamu bisa kirim sinyal ke ESP32 / server
+    console.log("Klakson ON 🚗");
+    if (!isPressed) {
+      // kirim sinyal ke ESP32 di sini
+    } else {
+      console.log("Tombol sudah ditekan, menunggu dilepas...");
+    }
   };
-
-  const handlePressEnd = () => {
+  const handlePressEndKlakson = () => {
     setIsPressed(false);
-    console.log("Klakson OFF 🔇");
+    console.log("Klakson OFF ");
     // hentikan sinyal ke ESP32 di sini
+    if (isPressed) {
+      // kirim sinyal ke ESP32 di sini
+    } else {
+      console.log("Tombol sudah dilepas, menunggu ditekan...");
+    }
   };
 
+  // fungsi untuk handle button kiri
+  const handlePressStartKiri = () => {
+    setIsPressed(true);
+    console.log("Kiri ON 🚗");
+    if (!isPressed) {
+      // kirim sinyal ke ESP32 di sini
+    } else {
+      console.log("Tombol sudah ditekan, menunggu dilepas...");
+    }
+  };
+  const handlePressEndKiri = () => {
+    setIsPressed(false);
+    console.log("Kiri OFF ");
+    // hentikan sinyal ke ESP32 di sini
+    if (isPressed) {
+      // kirim sinyal ke ESP32 di sini
+    } else {
+      console.log("Tombol sudah dilepas, menunggu ditekan...");
+    }
+  };
+
+  // fungsi untuk handle button kanan
+  const handlePressStartKanan = () => {
+    setIsPressed(true);
+    console.log("kanan ON 🚗");
+    if (!isPressed) {
+      // kirim sinyal ke ESP32 di sini
+    } else {
+      console.log("Tombol sudah ditekan, menunggu dilepas...");
+    }
+  };
+  const handlePressEndKanan = () => {
+    setIsPressed(false);
+    console.log("kanan OFF ");
+    // hentikan sinyal ke ESP32 di sini
+    if (isPressed) {
+      // kirim sinyal ke ESP32 di sini
+    } else {
+      console.log("Tombol sudah dilepas, menunggu ditekan...");
+    }
+  };
+
+  // fungsi untuk handle button atas
+  const handlePressStartAtas = () => {
+    setIsPressed(true);
+    console.log("Atas ON 🚗");
+    if (!isPressed) {
+      // kirim sinyal ke ESP32 di sini
+    } else {
+      console.log("Tombol sudah ditekan, menunggu dilepas...");
+    }
+  };
+  const handlePressEndAtas = () => {
+    setIsPressed(false);
+    console.log("Atas OFF ");
+    // hentikan sinyal ke ESP32 di sini
+    if (isPressed) {
+      // kirim sinyal ke ESP32 di sini
+    } else {
+      console.log("Tombol sudah dilepas, menunggu ditekan...");
+    }
+  };
+
+  // fungsi untuk handle button bawah
+  const handlePressStartBawah = () => {
+    setIsPressed(true);
+    console.log("Bawah ON 🚗");
+    if (!isPressed) {
+      // kirim sinyal ke ESP32 di sini
+    } else {
+      console.log("Tombol sudah ditekan, menunggu dilepas...");
+    }
+  };
+  const handlePressEndBawah = () => {
+    setIsPressed(false);
+    console.log("Bawah OFF ");
+    // hentikan sinyal ke ESP32 di sini
+    if (isPressed) {
+      // kirim sinyal ke ESP32 di sini
+    } else {
+      console.log("Tombol sudah dilepas, menunggu ditekan...");
+    }
+  };
   return (
     <div>
       <div className="text-4xl font-bold text-white mb-8 absolute top-20 left-1/2 transform -translate-x-1/2">
@@ -24,10 +115,10 @@ export default function PlayGame() {
 
       {/* button klakson */}
       <button
-        onTouchStart={handlePressStart}
-        onTouchEnd={handlePressEnd}
-        onMouseDown={handlePressStart}
-        onMouseUp={handlePressEnd}
+        onTouchStart={handlePressStartKlakson}
+        onTouchEnd={handlePressEndKlakson}
+        onMouseDown={handlePressStartKlakson}
+        onMouseUp={handlePressEndKlakson}
         onContextMenu={(e) => e.preventDefault()}
       >
         <div className=" border rounded-full h-32 w-32 flex justify-center items-center bg-white  absolute top-30 right-10 transform -translate-x-1/2 shadow-lg hover:scale-105 active:scale-95 transition-all duration-300 ease-in-out">
@@ -38,7 +129,13 @@ export default function PlayGame() {
       </button>
 
       {/* button up-arrow */}
-      <button>
+      <button
+        onTouchStart={handlePressStartAtas}
+        onTouchEnd={handlePressEndAtas}
+        onMouseDown={handlePressStartAtas}
+        onMouseUp={handlePressEndAtas}
+        onContextMenu={(e) => e.preventDefault()}
+      >
         <div className=" border rounded-full h-32 w-32 flex justify-center items-center bg-white absolute top-30 left-20 transform -translate-x-1/2 shadow-lg hover:scale-105 active:scale-95 transition-all duration-300 ease-in-out">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -52,7 +149,13 @@ export default function PlayGame() {
       </button>
 
       {/* button down-arrow */}
-      <button>
+      <button
+        onTouchStart={handlePressStartBawah}
+        onTouchEnd={handlePressEndBawah}
+        onMouseDown={handlePressStartBawah}
+        onMouseUp={handlePressEndBawah}
+        onContextMenu={(e) => e.preventDefault()}
+      >
         <div className=" border rounded-full h-32 w-32 flex justify-center items-center bg-white absolute top-64 left-20 transform -translate-x-1/2 shadow-lg hover:scale-105 active:scale-95 transition-all duration-300 ease-in-out rotate-x-180">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -66,7 +169,13 @@ export default function PlayGame() {
       </button>
 
       {/* button left-arrow */}
-      <button>
+      <button
+        onTouchStart={handlePressStartKiri}
+        onTouchEnd={handlePressEndKiri}
+        onMouseDown={handlePressStartKiri}
+        onMouseUp={handlePressEndKiri}
+        onContextMenu={(e) => e.preventDefault()}
+      >
         <div className=" border rounded-full h-32 w-32 flex justify-center items-center bg-white absolute top-64 right-30 transform -translate-x-1/2 shadow-lg hover:scale-105 active:scale-95 transition-all duration-300 ease-in-out -rotate-90">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -80,7 +189,13 @@ export default function PlayGame() {
       </button>
 
       {/* button right-arrow */}
-      <button>
+      <button
+        onTouchStart={handlePressStartKanan}
+        onTouchEnd={handlePressEndKanan}
+        onMouseDown={handlePressStartKanan}
+        onMouseUp={handlePressEndKanan}
+        onContextMenu={(e) => e.preventDefault()}
+      >
         <div className=" border rounded-full h-32 w-32 flex justify-center items-center bg-white absolute top-64 -right-10 transform -translate-x-1/2 shadow-lg hover:scale-105 active:scale-95 transition-all duration-300 ease-in-out rotate-90">
           <svg
             xmlns="http://www.w3.org/2000/svg"
