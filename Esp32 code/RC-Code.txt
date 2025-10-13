@@ -1,0 +1,60 @@
+// Uji L298N + 2 Motor DC dengan ESP32
+// Motor kiri = ENA, IN1, IN2
+// Motor kanan = ENB, IN3, IN4
+
+int ENA = 32;  // PWM kiri
+int IN1 = 25;
+int IN2 = 26;
+
+int ENB = 13;  // PWM kanan
+int IN3 = 27;
+int IN4 = 14;
+
+void setup() {
+  Serial.begin(115200);
+
+  pinMode(ENA, OUTPUT);
+  pinMode(IN1, OUTPUT);
+  pinMode(IN2, OUTPUT);
+  pinMode(ENB, OUTPUT);
+  pinMode(IN3, OUTPUT);
+  pinMode(IN4, OUTPUT);
+
+  Serial.println("Mulai tes motor...");
+}
+
+void loop() {
+  // Maju pelan
+  maju(225);
+  delay(2000);
+}
+
+void maju(int speedVal) {
+  Serial.println("Maju");
+  digitalWrite(IN1, HIGH);
+  digitalWrite(IN2, LOW);
+  digitalWrite(IN3, HIGH);
+  digitalWrite(IN4, LOW);
+  analogWrite(ENA, speedVal);
+  analogWrite(ENB, speedVal);
+}
+
+void mundur(int speedVal) {
+  Serial.println("Mundur");
+  digitalWrite(IN1, LOW);
+  digitalWrite(IN2, HIGH);
+  digitalWrite(IN3, LOW);
+  digitalWrite(IN4, HIGH);
+  analogWrite(ENA, speedVal);
+  analogWrite(ENB, speedVal);
+}
+
+void berhenti() {
+  Serial.println("Berhenti");
+  digitalWrite(IN1, LOW);
+  digitalWrite(IN2, LOW);
+  digitalWrite(IN3, LOW);
+  digitalWrite(IN4, LOW);
+  analogWrite(ENA, 0);
+  analogWrite(ENB, 0);
+}
