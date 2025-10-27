@@ -1,117 +1,118 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import mqtt from "mqtt";
+import { useNavigate } from "react-router";
 
 export default function PlayGame() {
   const [isPressed, setIsPressed] = useState(false);
+  const [client, setClient] = useState(null);
+  const topic = "esp32/motor"; // sesuaikan dengan topic ESP32
+  const navigate = useNavigate();
+
+
+  // koneksi ke broker MQTT
+  useEffect(() => {
+    const mqttClient = mqtt.connect("wss://broker.hivemq.com:8884/mqtt"); // broker publik HiveMQ
+    mqttClient.on("connect", () => {
+      console.log("Terhubung ke MQTT broker ✅");
+    });
+    setClient(mqttClient);
+
+    return () => {
+      mqttClient.end();
+    };
+  }, []);
+
+  if (isPressed) {
+    console.log("Tombol ditekan");
+  }
 
   // fungsi untuk handle button klakson
   const handlePressStartKlakson = () => {
     setIsPressed(true);
-    console.log("Klakson ON 🚗");
-    if (!isPressed) {
-      // kirim sinyal ke ESP32 di sini
-    } else {
-      console.log("Tombol sudah ditekan, menunggu dilepas...");
-    }
+    console.log("Klakson ON 🔊");
+    client?.publish(topic, "buzzer_on");
   };
   const handlePressEndKlakson = () => {
     setIsPressed(false);
-    console.log("Klakson OFF ");
-    // hentikan sinyal ke ESP32 di sini
-    if (isPressed) {
-      // kirim sinyal ke ESP32 di sini
-    } else {
-      console.log("Tombol sudah dilepas, menunggu ditekan...");
-    }
+    console.log("Klakson OFF 🔇");
+    client?.publish(topic, "buzzer_off");
   };
 
   // fungsi untuk handle button kiri
   const handlePressStartKiri = () => {
     setIsPressed(true);
-    console.log("Kiri ON 🚗");
-    if (!isPressed) {
-      // kirim sinyal ke ESP32 di sini
-    } else {
-      console.log("Tombol sudah ditekan, menunggu dilepas...");
-    }
+    console.log("Servo ke kiri ⬅️");
+    client?.publish(topic, "kiri");
   };
   const handlePressEndKiri = () => {
     setIsPressed(false);
-    console.log("Kiri OFF ");
-    // hentikan sinyal ke ESP32 di sini
-    if (isPressed) {
-      // kirim sinyal ke ESP32 di sini
-    } else {
-      console.log("Tombol sudah dilepas, menunggu ditekan...");
-    }
+    console.log("Servo kembali tengah");
+    client?.publish(topic, "tengah");
   };
 
   // fungsi untuk handle button kanan
   const handlePressStartKanan = () => {
     setIsPressed(true);
-    console.log("kanan ON 🚗");
-    if (!isPressed) {
-      // kirim sinyal ke ESP32 di sini
-    } else {
-      console.log("Tombol sudah ditekan, menunggu dilepas...");
-    }
+    console.log("Servo ke kanan ➡️");
+    client?.publish(topic, "kanan");
   };
   const handlePressEndKanan = () => {
     setIsPressed(false);
-    console.log("kanan OFF ");
-    // hentikan sinyal ke ESP32 di sini
-    if (isPressed) {
-      // kirim sinyal ke ESP32 di sini
-    } else {
-      console.log("Tombol sudah dilepas, menunggu ditekan...");
-    }
+    console.log("Servo kembali tengah");
+    client?.publish(topic, "tengah");
   };
 
   // fungsi untuk handle button atas
   const handlePressStartAtas = () => {
     setIsPressed(true);
-    console.log("Atas ON 🚗");
-    if (!isPressed) {
-      // kirim sinyal ke ESP32 di sini
-    } else {
-      console.log("Tombol sudah ditekan, menunggu dilepas...");
-    }
+    console.log("Maju ON 🚗");
+    client?.publish(topic, "maju");
   };
   const handlePressEndAtas = () => {
     setIsPressed(false);
-    console.log("Atas OFF ");
-    // hentikan sinyal ke ESP32 di sini
-    if (isPressed) {
-      // kirim sinyal ke ESP32 di sini
-    } else {
-      console.log("Tombol sudah dilepas, menunggu ditekan...");
-    }
+    console.log("Maju OFF");
+    client?.publish(topic, "stop");
   };
 
   // fungsi untuk handle button bawah
   const handlePressStartBawah = () => {
     setIsPressed(true);
-    console.log("Bawah ON 🚗");
-    if (!isPressed) {
-      // kirim sinyal ke ESP32 di sini
-    } else {
-      console.log("Tombol sudah ditekan, menunggu dilepas...");
-    }
+    console.log("Mundur ON 🚗");
+    client?.publish(topic, "mundur");
   };
   const handlePressEndBawah = () => {
     setIsPressed(false);
-    console.log("Bawah OFF ");
-    // hentikan sinyal ke ESP32 di sini
-    if (isPressed) {
-      // kirim sinyal ke ESP32 di sini
-    } else {
-      console.log("Tombol sudah dilepas, menunggu ditekan...");
-    }
+    console.log("Mundur OFF");
+    client?.publish(topic, "stop");
   };
   return (
     <div>
-      <div className="text-4xl font-bold text-white mb-8 absolute top-20 left-1/2 transform -translate-x-1/2">
+      <div className="text-4xl font-bold text-white mb-8 absolute top-3 left-1/2 transform -translate-x-1/2">
         <div>Control the RC Car</div>
       </div>
+
+      {/* tombol back */}
+      <button onClick={()=> navigate("/")}>
+        <div className="border rounded-full h-10 w-10 flex justify-center items-center bg-white absolute top-4 right-5 shadow-lg hover:scale-105 active:scale-95 transition-all duration-300 ease-in-out">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+          >
+            <g
+              fill="none"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+            >
+              <path d="m8 5l-5 5l5 5" />
+              <path d="M3 10h8c5.523 0 10 4.477 10 10v1" />
+            </g>
+          </svg>
+        </div>
+      </button>
 
       {/* button klakson */}
       <button
